@@ -1,4 +1,5 @@
 package adventofcode.puzzles
+
 import adventofcode.SantasLittleHelper
 
 
