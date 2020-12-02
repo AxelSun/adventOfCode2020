@@ -7,35 +7,38 @@ object Day1 extends SantasLittleHelper {
   def run(): Unit = {
     val input = readInput("/day1.txt").map(_.toInt)
 
-    val productOfTwo = findAndMultiplyTwoNumbers(input)
-    printFirstAnswer(productOfTwo.toString)
+    val inputAsSet = input.toSet
 
-    val productOfThree = findAndMultiplyThreeNumbers(input)
-    printSecondAnswer(productOfThree.toString)
+    val productOfTwo = findProduct(inputAsSet)
+    val productOfThree = findTrippleProduct(input)
+
+    printPuzzleAnswer(
+      productOfTwo.map(_.toString).get,
+      productOfThree.map(_.toString).get
+    )
   }
 
 
-  def findAndMultiplyTwoNumbers(l: List[Int]): Int = l match {
-    case head :: tail => {
-      tail.foreach(element => {
-        if(element + head == 2020) return element * head
-      })
-      findAndMultiplyTwoNumbers(tail)
-      }
-    case _ => 0
-    }
+  def findProduct(input: Set[Int]): Option[Int] = {
+    input.foreach(entry => {
+      val target = 2020 - entry
+      val targetExists = input contains target
+      if(targetExists) return Some(target * entry)
+    })
+    None
+  }
 
-
-  def findAndMultiplyThreeNumbers(l: List[Int]): Int = l match {
+  def findTrippleProduct(input: List[Int]): Option[Int] = input match {
     case head :: tail => {
-      tail.foreach( e1 => {
-        tail.tail.foreach(e2 => {
-          if(head + e1 + e2 == 2020) return head * e1 * e2
-        })
+      val targetSet = tail.toSet
+      tail.foreach(entry => {
+        val target = 2020 - head - entry
+        val targetExists = targetSet contains target
+        if(targetExists) return Some(target * head * entry)
       })
-      findAndMultiplyThreeNumbers(tail)
+      findTrippleProduct(tail)
     }
-    case _ => 0
+    case _ => None
   }
 
 }

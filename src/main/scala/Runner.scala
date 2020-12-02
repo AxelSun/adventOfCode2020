@@ -1,6 +1,6 @@
 package adventofcode
 
-import puzzles.Day1
+import puzzles._
 
 object Runner extends App {
 
