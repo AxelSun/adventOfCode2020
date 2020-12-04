@@ -11,6 +11,11 @@ trait SantasLittleHelper {
     Source.fromFile(path).getLines().toList
   }
 
+  def readInputAsStrig(p: String): String = {
+    val path = getClass.getResource(p).getPath
+    Source.fromFile(path).getLines mkString "\n"
+  }
+
   def printFirstAnswer(s: String) = println(s"Answer to first puzzle is: $s")
 
   def printSecondAnswer(s: String) = println(s"Answer to second puzzle is: $s")
