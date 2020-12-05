@@ -8,13 +8,13 @@ object Day5 extends SantasLittleHelper {
         .map( boardingPass => {
           boardingPass.map(c => if(c == 'F' || c == 'L') 0 else 1).splitAt(7)
         })
-        .map(s => findNbrFromBits(s._1) * 8 + findNbrFromBits(s._2, 7))
+        .map(bits => findNbrFromBits(bits._1) * 8 + findNbrFromBits(bits._2, 7))
 
     val maxSeatId = seatIds.max
     printFirstAnswer(maxSeatId.toString)
 
-    val mySeat = (seatIds.min to seatIds.max).toSet diff seatIds.toSet
-    printSecondAnswer(mySeat.head.toString)
+    val mySeat = (seatIds.min to seatIds.max).sum - seatIds.sum
+    printSecondAnswer(mySeat.toString)
   }
 
 
