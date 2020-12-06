@@ -16,11 +16,11 @@ trait SantasLittleHelper {
     Source.fromFile(path).getLines mkString "\n"
   }
 
-  def printFirstAnswer(s: String) = println(s"Answer to first puzzle is: $s")
+  def printFirstAnswer(s: Any) = println(s"Answer to first puzzle is: $s")
 
-  def printSecondAnswer(s: String) = println(s"Answer to second puzzle is: $s")
+  def printSecondAnswer(s: Any) = println(s"Answer to second puzzle is: $s")
 
-  def printPuzzleAnswer(s1: String, s2: String): Unit = {
+  def printPuzzleAnswer(s1: Any, s2: Any): Unit = {
     printFirstAnswer(s1)
     printSecondAnswer(s2)
   }
