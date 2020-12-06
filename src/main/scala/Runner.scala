@@ -4,6 +4,6 @@ import puzzles._
 
 object Runner extends App {
 
-  Day5.run()
+  Day6.run()
 
 }
