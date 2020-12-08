@@ -1,20 +1,26 @@
 package adventofcode.puzzles
 
 import adventofcode.SantasLittleHelper
-import scala.util.matching.Regex
+
 
 object Day7 extends SantasLittleHelper {
 
   def run(): Unit = {
 
     val input = readInput("/day7.txt")
-    val contents = formatInput(input)
+    val contents = parse(input)
 
-    val bagsOfInterest = findBags(List("shiny gold"), contents)
+    val bagsOfInterest = findBagColors("shiny gold", contents)
     printFirstAnswer(bagsOfInterest.size)
+
+    val res = nbrBags("shiny gold", 1, contents)
+    printSecondAnswer(res - 1)
   }
 
-  def formatInput(input: List[String]): List[(String, Map[String, Int])] =
+  type Color = String
+  type Content = (Color, Map[Color, Int])
+
+  def parse(input: List[String]): List[Content] =
     input
       .map(_.split(" bags contain").toList)
       .map{rules =>
@@ -27,8 +33,8 @@ object Day7 extends SantasLittleHelper {
         (rules(0), contents)
       }
 
-  def findBags(target: List[String], contents: List[(String, Map[String, Int])]): Set[String] = {
-    def loop(target: List[String], res: Set[String]): Set[String] = target match {
+  def findBagColors(target: Color, contents: List[Content]): Set[Color] = {
+    def loop(target: List[Color], res: Set[Color]): Set[Color] = target match {
       case Nil => res
       case _ => {
         val eventualBags = contents.filter{ content =>
@@ -37,7 +43,22 @@ object Day7 extends SantasLittleHelper {
         loop(eventualBags, res ++ eventualBags)
       }
     }
-    loop(target, Set.empty)
+    loop(List(target), Set.empty)
+  }
+
+
+  def nbrBags(target: Color, multiplier: Int, input: List[Content]): Int = {
+    val children = input.filter(_._1 == target).head._2
+    children match {
+      case m: Map[Color, Int] if(m.isEmpty) => multiplier
+      case _ => {
+        val res = children.map{ child =>
+          val (nextTargetColor, nextMultiplier) = child
+          multiplier * nbrBags(nextTargetColor, nextMultiplier, input)
+        }
+        multiplier :: res.toList
+      }.sum
+    }
   }
 
 }
