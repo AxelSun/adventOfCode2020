@@ -4,6 +4,6 @@ import adventofcode.puzzles._
 
 object Runner extends App {
 
-  Day8.run()
+  Day10.run()
 
 }
